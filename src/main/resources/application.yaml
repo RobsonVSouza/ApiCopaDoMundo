@@ -1,0 +1,59 @@
+server:
+  port: 5000
+
+logging:
+  level:
+    root: info
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'health,info'
+
+spring:
+  application:
+    name: Copa do Mundo
+  data:
+    web:
+      pageable:
+        default-page-size: 20
+        max-page-size: 100
+  datasource:
+    url: jdbc:postgresql://localhost:5434/postgres
+    username: postgres
+    password: postgres
+  flyway:
+    enabled: true
+    schemas: postgres
+    locations: classpath:db/migration
+    placeholderReplacement: false
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+    deserialization:
+      READ_UNKNOWN_ENUM_VALUES_AS_NULL: true
+      ACCEPT_EMPTY_STRING_AS_NULL_OBJECT: true
+  jpa:
+    open-in-view: false
+    database: postgresql
+    properties:
+      hibernate.show_sql: true
+      hibernate.format_sql: true
+      hibernate.hbm2ddl.auto: validate
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+      hibernate.temp.use_jdbc_metadata_defaults: false
+      hibernate.jdbc.time_zone: UTC
+      hibernate.default_schema: postgres
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 200KB
+      max-file-size: 500MB
+      max-request-size: 500MB
+  info:
+    build:
+      version: '@project.version@'
+      timestamp: '@timestamp@'
+      environment: '@spring.profiles.active@'
